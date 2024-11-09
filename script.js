@@ -83,7 +83,7 @@ async function captureFrame() {
 startCamera();
 
 // Configurar la captura de frames cada 200ms
-setInterval(captureFrame, 200);
+setInterval(captureFrame, 3000);
 
 // Función asincrónica para actualizar el video
 async function playVideo(keyword) {
