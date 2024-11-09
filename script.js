@@ -30,7 +30,7 @@ async function captureFrame() {
     frameCounter++;
 
     // Solo procesar cada 5 frames
-    if (frameCounter % 5 !== 0) {
+    if (frameCounter % 12 !== 0) {
         return;
     }
 
