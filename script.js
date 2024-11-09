@@ -29,7 +29,7 @@ async function captureFrame() {
     const base64Image = canvas.toDataURL("image/jpeg");
 
     try {
-        const response = await fetch('http://127.0.0.1:5003/predict', {
+        const response = await fetch('https://trabajo-senas.onrender.com/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
