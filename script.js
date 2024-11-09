@@ -24,7 +24,16 @@ async function startCamera() {
     }
 }
 
+let frameCounter = 0;
+
 async function captureFrame() {
+    frameCounter++;
+
+    // Solo procesar cada 5 frames
+    if (frameCounter % 5 !== 0) {
+        return;
+    }
+
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const base64Image = canvas.toDataURL("image/jpeg");
 
@@ -46,31 +55,24 @@ async function captureFrame() {
         loadingDiv.innerText = "Cargando...";
         output.appendChild(loadingDiv);
 
-        // Crear un conjunto para almacenar las palabras ya mostradas
         const detectedWords = new Set();
 
         if (data.detections && data.detections.length > 0) {
-            // Eliminar el "cargando..." cuando se detectan gestos
             loadingDiv.remove();
 
-            // Mostrar los gestos detectados, evitando duplicados
             data.detections.forEach(deteccion => {
-                // Solo mostrar si no ha sido detectada ya en esta captura
                 if (!detectedWords.has(deteccion)) {
-                    detectedWords.add(deteccion);  // Añadir al conjunto
+                    detectedWords.add(deteccion);
                     const p = document.createElement("p");
                     p.innerHTML = `Gesto detectado: <span>${deteccion}</span>`;
                     output.appendChild(p);
                 }
             });
         } else {
-            // Eliminar el "cargando..." si no hay detección
             loadingDiv.remove();
-
-            // Mostrar un mensaje diciendo que no se detectaron gestos
             const p = document.createElement("p");
             p.innerText = "No se detectaron gestos.";
-            p.classList.add("no-detection"); // Añadir clase para los resultados negativos
+            p.classList.add("no-detection");
             output.appendChild(p);
         }
     } catch (error) {
@@ -79,11 +81,12 @@ async function captureFrame() {
 }
 
 
+
 // Iniciar la cámara al cargar la página
 startCamera();
 
 // Configurar la captura de frames cada 200ms
-setInterval(captureFrame, 3000);
+setInterval(captureFrame, 1000);
 
 // Función asincrónica para actualizar el video
 async function playVideo(keyword) {
